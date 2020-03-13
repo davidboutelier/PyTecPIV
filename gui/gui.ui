@@ -298,6 +298,13 @@
     <addaction name="rectification_menu"/>
     <addaction name="find_rectification_menu"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionConfiguration"/>
+   </widget>
+   <addaction name="menuSettings"/>
    <addaction name="menu_project"/>
    <addaction name="menumenu_2"/>
    <addaction name="menuCalibration"/>
@@ -412,6 +419,11 @@
   <action name="find_rectification_menu">
    <property name="text">
     <string>Find rectification function</string>
+   </property>
+  </action>
+  <action name="actionConfiguration">
+   <property name="text">
+    <string>Configuration</string>
    </property>
   </action>
  </widget>

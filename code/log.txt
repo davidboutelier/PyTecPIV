@@ -1,4 +1,4 @@
  
-2020-03-13 10:52:43.319368
+2020-03-13 13:51:55.741057
  
 Starting new instance of PyTecPIV v0.1-alpha
