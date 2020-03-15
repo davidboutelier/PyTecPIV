@@ -1,7 +1,10 @@
 def pytecpiv_get_pref():
     """
-            This is a collection of functions for PIV steps
+    This function checks the existence of a settings file in the working directory and returns the full paths to the
+    sources and projects directory. If the settings files does not exist these paths are returned empty.
+    :return: sources_path, projects_path - the full paths to the sources and the projects directory respectively
     """
+
     import os.path
     import json
 

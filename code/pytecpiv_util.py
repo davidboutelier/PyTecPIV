@@ -2,20 +2,35 @@
 This is a collection of utility functions.
 """
 
+
 def dprint(content):
     """
-    Command for printing to the screen and in a log file.
+    This function allows simultaneous printing in the terminal and in the log file
+    :param content: the content to be printed
+    :return:
     """
+
     print(content)
     log_file = open('log.txt', 'a')
     print(content, file=log_file)
     log_file.close()
 
+
 def rgb2gray(rgb):
+    """
+    This function converts rgb to grayscale
+    :param rgb: a matrix of rgb values
+    :return: an unnamed vector of grayscale values
+    """
     import numpy as np
     return np.dot(rgb[..., :3], [0.2989, 0.5870, 0.1140])
 
 def colorbar(mappable):
+    """
+    This function adds a colorbar to the right-hand side of the matplotlib ax
+    :param mappable: a matplotlib figure containing mappable ax
+    :return: the colorbar object
+    """
     import matplotlib.pyplot as plt
     from mpl_toolkits.axes_grid1 import make_axes_locatable
     ax = mappable.axes
@@ -26,10 +41,16 @@ def colorbar(mappable):
     return fig.colorbar(mappable, cax=cax)
 
 def create_fig(fig1, dataset):
+    """
+    This function creates the figure in the gui
+    :param fig1: the figure already created
+    :param dataset: the dataset to be plotted (i.e. all parameters of the plot)
+    :return: none
+    """
     from skimage import img_as_float
     import os
     from skimage import io
-    """The method's docstring"""
+
     dataset_name = dataset[0]  # get name of dataset
     frame_number = dataset[1]
 
