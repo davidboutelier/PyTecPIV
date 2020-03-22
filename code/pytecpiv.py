@@ -22,13 +22,12 @@ if __name__ == '__main__':
     dprint(' ')
     dprint("Starting new instance of PyTecPIV v0.1-alpha")
 
-
     # make the intro figure here
     fig1 = Figure()
     ax1f1 = fig1.add_subplot(111)
     s1 = 'pyTecPIV v0.1-alpha'
     s2 = 'build on Python 3.7 with the following packages:'
-    s3 = 'numpy, scipy, scikit-image, rawpy, json, hdf5, matplotlib'
+    s3 = 'numpy, scikit-image, rawpy, json, hdf5, matplotlib'
     s4 = 'GUI build with Qt5'
     ax1f1.margins(0, 0, tight=True)
     ax1f1.set_ylim([0, 1])

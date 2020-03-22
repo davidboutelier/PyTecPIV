@@ -273,7 +273,6 @@
     <addaction name="project_open_menu"/>
     <addaction name="project_save_menu"/>
     <addaction name="project_close_menu"/>
-    <addaction name="project_metadata_menu"/>
    </widget>
    <widget class="QMenu" name="menumenu_2">
     <property name="title">
@@ -281,7 +280,6 @@
     </property>
     <addaction name="import_calib_menu"/>
     <addaction name="import_exp_menu"/>
-    <addaction name="set_time_interval_menu"/>
    </widget>
    <widget class="QMenu" name="menuPreprocessing">
     <property name="title">
@@ -418,7 +416,7 @@
   </action>
   <action name="find_rectification_menu">
    <property name="text">
-    <string>Find rectification function</string>
+    <string>Find function</string>
    </property>
   </action>
   <action name="actionConfiguration">
