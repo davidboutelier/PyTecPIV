@@ -22,6 +22,10 @@ class Main(QMainWindow, Ui_MainWindow):
         self.actionConfiguration.triggered.connect(self.show_conf_fn)
         self.dialog_conf = dialog_conf(self)
 
+
+
+
+
     def addmpl(self, fig):
         """The method's docstring"""
         self.canvas = FigureCanvas(fig)
@@ -43,7 +47,7 @@ class Main(QMainWindow, Ui_MainWindow):
         from pytecpiv_conf import pytecpiv_get_pref
 
         current_directory = os.getcwd()
-        (sources_path, projects_path) = pytecpiv_get_pref()
+        (file_exist, sources_path, projects_path) = pytecpiv_get_pref()
         self.dialog_conf.code_label.setText(current_directory)
         self.dialog_conf.sources_label.setText(sources_path)
         self.dialog_conf.projects_label.setText(projects_path)

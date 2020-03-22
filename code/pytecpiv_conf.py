@@ -21,7 +21,11 @@ def pytecpiv_get_pref():
             projects = projects[0]
             projects_path = projects['projects_path']
 
+            file_exist = 'yes'
+
     else:
+        file_exist = 'no'
         sources_path = ''
         projects_path = ''
-    return sources_path, projects_path
+    return file_exist, sources_path, projects_path
+
