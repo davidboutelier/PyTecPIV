@@ -30,7 +30,7 @@ class dialog_conf(QDialog, Ui_DialogConf):
         from pytecpiv_conf import pytecpiv_get_pref
 
         # get the data from the conf file if exist
-        file_exist, projects_path, sources_path = pytecpiv_get_pref()
+        file_exist, sources_path, projects_path = pytecpiv_get_pref()
         print(file_exist)
 
         current_directory = os.getcwd()
@@ -39,23 +39,60 @@ class dialog_conf(QDialog, Ui_DialogConf):
 
         if file_exist == 'yes':
             #  write in the file
+            with open('pytecpiv_settings.json') as f:
+                pytecpiv_settings = json.load(f)
+
+            pytecpiv_settings['projects'] = []
+            pytecpiv_settings['projects'].append({'projects_path': new_projects_path})
+            with open('pytecpiv_settings.json', 'w') as outfile:
+                json.dump(pytecpiv_settings, outfile)
 
 
         else:
             #  create the conf file and write in
+            pytecpiv_settings = {'sources': []}
+            pytecpiv_settings['sources'].append({'sources_path': ' '})
+            pytecpiv_settings['projects'] = []
+            pytecpiv_settings['projects'].append({'projects_path': new_projects_path})
+            with open('pytecpiv_settings.json', 'w') as outfile:
+                json.dump(pytecpiv_settings, outfile)
 
-
-
-        return new_projects_path
+        self.sources_label.setText(sources_path)
+        self.projects_label.setText(projects_path)
 
     def set_sources_path(self):
         """
 
-        :return:
         """
         import os
+        import json
         from PyQt5.QtWidgets import QFileDialog
+        from pytecpiv_conf import pytecpiv_get_pref
+
+        # get the data from the conf file if exist
+        file_exist, sources_path, projects_path = pytecpiv_get_pref()
 
         current_directory = os.getcwd()
-        sources_path = QFileDialog.getExistingDirectory(self, 'Open directory', current_directory)
-        return sources_path
+        new_sources_path = QFileDialog.getExistingDirectory(self, 'Open directory', current_directory)
+
+        if file_exist == 'yes':
+            #  write in the file
+            with open('pytecpiv_settings.json') as f:
+                pytecpiv_settings = json.load(f)
+
+            pytecpiv_settings['sources'] = []
+            pytecpiv_settings['sources'].append({'sources_path': new_sources_path})
+            with open('pytecpiv_settings.json', 'w') as outfile:
+                json.dump(pytecpiv_settings, outfile)
+
+        else:
+            #  create the conf file and write in
+            pytecpiv_settings = {'sources': []}
+            pytecpiv_settings['sources'].append({'sources_path': new_sources_path})
+            pytecpiv_settings['projects'] = []
+            pytecpiv_settings['projects'].append({'projects_path': ' '})
+            with open('pytecpiv_settings.json', 'w') as outfile:
+                json.dump(pytecpiv_settings, outfile)
+
+        self.sources_label.setText(sources_path)
+        self.projects_label.setText(projects_path)
