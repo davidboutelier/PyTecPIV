@@ -1,6 +1,11 @@
  
-2020-03-22 15:59:46.986487
- 
+2020-03-24 15:13:26.222242
 Starting new instance of PyTecPIV v0.1-alpha
+ 
+2020-03-24 15:13:39.854304
 creating new project
-2020-03-22 16:00:02.990725
+4 cores available
+using 4 cores when parallel
+saving in directory: /Volumes/SSD/PROJECTS/test26/CALIB
+- image /Volumes/SSD/SOURCES/SUB/CALIB/DSC_4235.dng imported
+- image /Volumes/SSD/SOURCES/SUB/CALIB/DSC_4234.dng imported

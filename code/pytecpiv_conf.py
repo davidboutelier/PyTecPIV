@@ -29,3 +29,28 @@ def pytecpiv_get_pref():
         projects_path = ''
     return file_exist, sources_path, projects_path
 
+def pytecpiv_set_cores(fraction_cores):
+    """
+
+    :param fraction_cores:
+    :return:
+    """
+    import multiprocessing
+
+    #  get the number of cores available
+    n_cores = multiprocessing.cpu_count()
+    use_cores = int(fraction_cores * n_cores)
+
+    if use_cores < 1:
+        use_cores == 1
+
+    return n_cores, use_cores
+
+
+
+
+
+
+
+
+

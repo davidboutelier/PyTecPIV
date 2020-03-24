@@ -19,7 +19,6 @@ if __name__ == '__main__':
     project_create_time = str(datetime.now())
     dprint(' ')
     dprint(project_create_time)
-    dprint(' ')
     dprint("Starting new instance of PyTecPIV v0.1-alpha")
 
     # make the intro figure here
