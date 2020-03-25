@@ -12,6 +12,7 @@ from matplotlib.figure import Figure
 Ui_MainWindow, QMainWindow = loadUiType(os.path.join('..', 'gui', 'gui.ui'))
 Ui_DialogConf, QDialog = loadUiType(os.path.join('..', 'gui', 'dialog_conf.ui'))
 Ui_DialogImg, QDialog = loadUiType(os.path.join('..', 'gui', 'dialog_img.ui'))
+Ui_DialogTime, QDialog = loadUiType(os.path.join('..', 'gui', 'dialog_time.ui'))
 
 #  initialise some global variables here
 dataset_index = 0
@@ -29,7 +30,33 @@ current_dataset.append('gray')         # 8 name of the colormap for the model im
 time_step = 1
 time_unit = 's'
 
+class dialog_time(QDialog, Ui_DialogTime):
+    """The class's docstring"""
+    def __init__(self, parent=None):
+        super(dialog_time, self).__init__(parent)
+        self.setupUi(self)
+        self.time_button.clicked.connect(self.read_time_int_fn)
 
+    def read_time_int_fn(self):
+        """
+
+        :return:
+        """
+
+        from pytecpiv_util import dprint
+
+        global time_step, time_unit
+        time_text = self.time_int_box.toPlainText()
+        t = time_text.isdigit()
+        if t:
+            time_step = float(time_text)
+        else:
+            dprint('Error: time interval must be a number')
+
+        index = self.time_unit_comboBox.currentIndex()          # get the current index (first is 0)
+        time_unit = self.time_unit_comboBox.itemText(index)     # get the text for item corresponding to index
+        dprint('Time step set to: '+str(time_step)+' '+time_unit)
+        return time_step, time_unit
 class dialog_img(QDialog, Ui_DialogImg):
     """
 
@@ -174,6 +201,15 @@ class Main(QMainWindow, Ui_MainWindow):
 
         self.Img_pushButton.clicked.connect(self.show_dialog_img)       # trigger dialog image
         self.dialog_img = dialog_img(self)
+
+
+        self.dialog_time = dialog_time(self)
+
+    def set_time_int_fn(self):
+        """
+        This function makes the dialog box visible
+        """
+        self.dialog_time.show()
 
     def show_dialog_img(self):
         self.dialog_img.show()
@@ -431,6 +467,8 @@ class Main(QMainWindow, Ui_MainWindow):
         # change the selected combobox
         self.Dataset_comboBox.insertItem(int(dataset_index), 'experiment images')
         self.Dataset_comboBox.setCurrentIndex(int(dataset_index))
+
+        self.set_time_int_fn()
 
     def dataset_combobox_fn(self):
         """

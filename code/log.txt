@@ -1,17 +1,18 @@
  
-2020-03-25 16:22:12.261352
+2020-03-25 16:32:35.595937
 Starting new instance of PyTecPIV v0.1-alpha
  
-2020-03-25 16:22:23.329109
+2020-03-25 16:32:47.490350
 creating new project
 4 cores available
 using 4 cores when parallel
-saving in directory: /Volumes/SSD/PROJECTS/test/CALIB
-/Volumes/SSD/SOURCES/MINI/CALIB/DSC_4234.dng -> /Volumes/SSD/PROJECTS/test/CALIB/IMG_1.tif
+saving in directory: /Volumes/SSD/PROJECTS/test2/CALIB
+/Volumes/SSD/SOURCES/MINI/CALIB/DSC_4234.dng -> /Volumes/SSD/PROJECTS/test2/CALIB/IMG_1.tif
 4 cores available
 using 4 cores when parallel
-saving in directory: /Volumes/SSD/PROJECTS/test/EXP
-/Volumes/SSD/SOURCES/MINI/EXP/DSC_4237.dng -> /Volumes/SSD/PROJECTS/test/EXP/IMG_2.tif
-/Volumes/SSD/SOURCES/MINI/EXP/DSC_4236.dng -> /Volumes/SSD/PROJECTS/test/EXP/IMG_1.tif
-/Volumes/SSD/SOURCES/MINI/EXP/DSC_4239.dng -> /Volumes/SSD/PROJECTS/test/EXP/IMG_4.tif
-/Volumes/SSD/SOURCES/MINI/EXP/DSC_4238.dng -> /Volumes/SSD/PROJECTS/test/EXP/IMG_3.tif
+saving in directory: /Volumes/SSD/PROJECTS/test2/EXP
+/Volumes/SSD/SOURCES/MINI/EXP/DSC_4237.dng -> /Volumes/SSD/PROJECTS/test2/EXP/IMG_2.tif
+/Volumes/SSD/SOURCES/MINI/EXP/DSC_4239.dng -> /Volumes/SSD/PROJECTS/test2/EXP/IMG_4.tif
+/Volumes/SSD/SOURCES/MINI/EXP/DSC_4236.dng -> /Volumes/SSD/PROJECTS/test2/EXP/IMG_1.tif
+/Volumes/SSD/SOURCES/MINI/EXP/DSC_4238.dng -> /Volumes/SSD/PROJECTS/test2/EXP/IMG_3.tif
+Time step set to: 5.0 s
