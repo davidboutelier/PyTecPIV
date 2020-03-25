@@ -53,8 +53,8 @@ def create_fig(fig1, dataset):
 
     dataset_name = dataset[0]  # get name of dataset
     frame_number = dataset[1]
-
     image_path = dataset[5]
+    colormap_name = dataset[8]
 
     if dataset_name == 'calibration':
         min_val = dataset[6]
@@ -63,7 +63,7 @@ def create_fig(fig1, dataset):
         ax1f1 = fig1.add_subplot(111)
         img = img_as_float(io.imread(os.path.join(image_path, 'IMG_' + str(frame_number) + '.tif')))
         img = (img - min_val) / (max_val - min_val)
-        im = ax1f1.imshow(img, cmap='gray')
+        im = ax1f1.imshow(img, cmap=colormap_name)
         colorbar(im)
         ax1f1.set_aspect('equal')
 
@@ -75,7 +75,7 @@ def create_fig(fig1, dataset):
             ax1f1 = fig1.add_subplot(111)
             img = img_as_float(io.imread(os.path.join(image_path, 'IMG_' + str(frame_number) + '.tif')))
             img = (img - min_val) / (max_val - min_val)
-            im = ax1f1.imshow(img, cmap='gray')
+            im = ax1f1.imshow(img, cmap=colormap_name)
             colorbar(im)
             ax1f1.set_aspect('equal')
         else:

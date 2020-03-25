@@ -28,13 +28,15 @@ if __name__ == '__main__':
     s2 = 'build on Python 3.7 with the following packages:'
     s3 = 'numpy, scikit-image, rawpy, json, hdf5, matplotlib'
     s4 = 'GUI build with Qt5'
+    s5 = 'D. Boutelier, 2020'
     ax1f1.margins(0, 0, tight=True)
     ax1f1.set_ylim([0, 1])
     ax1f1.set_xlim([0, 1])
-    ax1f1.text(0.01, 0.95, s1, fontsize=12)
+    ax1f1.text(0.01, 0.95, s1, fontsize=14)
     ax1f1.text(0.01, 0.9, s2, fontsize=10)
     ax1f1.text(0.01, 0.85, s3, fontsize=10)
     ax1f1.text(0.01, 0.775, s4, fontsize=10)
+    ax1f1.text(0.01, 0.7, s5, fontsize=9)
     ax1f1.set_aspect('equal')
     ax1f1.set_axis_off()
 

@@ -11,11 +11,24 @@ Ui_MainWindow, QMainWindow = loadUiType(os.path.join('..', 'gui', 'gui.ui'))
 
 #  initialise some global variables here
 dataset_index = 0
-current_dataset = []
 time_step = 1
+
+#  curent_dataset holds what to plot and how
+current_dataset = []
+current_dataset.append('name')          # 0 unique name of dataset
+current_dataset.append(1)               # 1 frame number
+current_dataset.append(1)               # 2 plot image, 0=no, 1=yes
+current_dataset.append(0)               # 3 plot vector, 0=no, 1=yes
+current_dataset.append(0)               # 4 plot scalar, 0=no, 1=yes
+current_dataset.append('path')          # 5 path to image in project
+current_dataset.append(0)               # 6 min value image - default value = 0
+current_dataset.append(1)               # 7 max value image - default value = 1
+current_dataset.append('Greys')          # 8 name of the colormap for the model image
+
 
 class Main(QMainWindow, Ui_MainWindow):
     """The class's docstring"""
+
     def __init__(self, ):
         super(Main, self).__init__()
         self.setupUi(self)
@@ -24,17 +37,22 @@ class Main(QMainWindow, Ui_MainWindow):
 
         # define some callback functions here
         from classes.pytecpiv_dialog_conf_class import dialog_conf
-        self.actionConfiguration.triggered.connect(self.show_conf_fn)       #  menu settings
+
+        self.actionConfiguration.triggered.connect(self.show_conf_fn)  # menu settings
         self.dialog_conf = dialog_conf(self)
 
-        self.new_project_menu.triggered.connect(self.create_new_project)    #  menu new project
-        self.import_calib_menu.triggered.connect(self.import_calib_img)     #  menu data import calib image
+        from classes.pytecpiv_dialog_fig_class import dialog_img
+        self.dialog_img = dialog_img(self)
+
+        self.new_project_menu.triggered.connect(self.create_new_project)  # menu new project
+        self.import_calib_menu.triggered.connect(self.import_calib_img)  # menu data import calib image
 
         self.Dataset_comboBox.currentIndexChanged.connect(self.dataset_combobox_fn)
 
+        self.Img_pushButton.clicked.connect(self.show_dialog_img)
 
-
-
+    def show_dialog_img(self):
+        self.dialog_img.show()
 
     def addmpl(self, fig):
         """The method's docstring"""
@@ -154,25 +172,15 @@ class Main(QMainWindow, Ui_MainWindow):
         # create new dataset entry and select
         dataset_index = dataset_index + 1
 
-        if not current_dataset:  # current_dataset is an empty list, we must create the entries (append list)
-            current_dataset.append('calibration')  # 0 unique name of dataset
-            current_dataset.append(1)  # 1 frame number
-            current_dataset.append(1)  # 2 plot image, 0=no, 1=yes
-            current_dataset.append(0)  # 3 plot vector, 0=no, 1=yes
-            current_dataset.append(0)  # 4 plot scalar, 0=no, 1=yes
-            current_dataset.append(project_path_calib_img)  # 5 path to image in project
-            current_dataset.append(0)  # 6 min value image - default value = 0
-            current_dataset.append(1)  # 7 max value image - default value = 1
-
-        else:  # list is not empty, we must change the entries
-            current_dataset[0] = 'calibration'
-            current_dataset[1] = 1
-            current_dataset[2] = 1
-            current_dataset[3] = 0
-            current_dataset[4] = 0
-            current_dataset[5] = project_path_calib_img
-            current_dataset[6] = 0
-            current_dataset[7] = 1
+        current_dataset[0] = 'calibration'
+        current_dataset[1] = 1
+        current_dataset[2] = 1
+        current_dataset[3] = 0
+        current_dataset[4] = 0
+        current_dataset[5] = project_path_calib_img
+        current_dataset[6] = 0
+        current_dataset[7] = 1
+        current_dataset[8] = 'Greys'
 
         #  change the frame number and time in gui
         self.frame_text.setText(str(1))
@@ -182,7 +190,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.Img_checkBox.setCheckState(2)
 
         # save dataset in json file
-        table_dataset = {dataset_index:  []}
+        table_dataset = {dataset_index: []}
         table_dataset[dataset_index].append({
             'name': 'calibration',
             'frame': 1,
@@ -191,7 +199,8 @@ class Main(QMainWindow, Ui_MainWindow):
             'plot_scalar': 0,
             'image_path': project_path_calib_img,
             'img_value_min': 0,
-            'img_value_max': 1
+            'img_value_max': 1,
+            'img_colormap': 'Greys'
         })
 
         # save data in json file in sources
@@ -217,7 +226,7 @@ class Main(QMainWindow, Ui_MainWindow):
 
         self.rmmpl()  # clear the mpl for a replot
 
-        if index == 0:  #  this is a special index with the credits & license
+        if index == 0:  # this is a special index with the credits & license
 
             fig1 = Figure()
             ax1f1 = fig1.add_subplot(111)
@@ -225,6 +234,7 @@ class Main(QMainWindow, Ui_MainWindow):
             s2 = 'build on Python 3.7 with the following packages:'
             s3 = 'numpy, scikit-image, rawpy, json, hdf5, matplotlib'
             s4 = 'GUI build with Qt5'
+            s5 = 'D. Boutelier, 2020'
             ax1f1.margins(0, 0, tight=True)
             ax1f1.set_ylim([0, 1])
             ax1f1.set_xlim([0, 1])
@@ -232,6 +242,7 @@ class Main(QMainWindow, Ui_MainWindow):
             ax1f1.text(0.01, 0.9, s2, fontsize=10)
             ax1f1.text(0.01, 0.85, s3, fontsize=10)
             ax1f1.text(0.01, 0.775, s4, fontsize=10)
+            ax1f1.text(0.01, 0.675, s5, fontsize=8)
             ax1f1.set_aspect('equal')
             ax1f1.set_axis_off()
 
@@ -249,27 +260,9 @@ class Main(QMainWindow, Ui_MainWindow):
                 current_dataset[5] = selected_dataset['image_path']
                 current_dataset[6] = selected_dataset['img_value_min']
                 current_dataset[7] = selected_dataset['img_value_max']
+                current_dataset[8] = selected_dataset['img_colormap']
 
             fig1 = Figure()
             create_fig(fig1, current_dataset)
 
         self.addmpl(fig1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
