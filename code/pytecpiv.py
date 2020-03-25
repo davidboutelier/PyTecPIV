@@ -350,18 +350,37 @@ class Main(QMainWindow, Ui_MainWindow):
         self.Img_checkBox.setCheckState(2)
 
         # save dataset in json file
-        table_dataset = {dataset_index: []}
-        table_dataset[dataset_index].append({
-            'name': current_dataset[0],
-            'frame': current_dataset[1],
-            'plot_image': current_dataset[2],
-            'plot_vector': current_dataset[3],
-            'plot_scalar': current_dataset[4],
-            'image_path': current_dataset[5],
-            'img_value_min': current_dataset[6],
-            'img_value_max': current_dataset[7],
-            'img_colormap': current_dataset[8]
-        })
+        t = os.path.isfile('table_dataset.json')
+        if t:
+            with open('table_dataset.json') as f:
+                table_dataset = json.load(f)
+                table_dataset[dataset_index] = []
+                table_dataset[dataset_index].append({
+                    'name': current_dataset[0],
+                    'frame': current_dataset[1],
+                    'plot_image': current_dataset[2],
+                    'plot_vector': current_dataset[3],
+                    'plot_scalar': current_dataset[4],
+                    'image_path': current_dataset[5],
+                    'img_value_min': current_dataset[6],
+                    'img_value_max': current_dataset[7],
+                    'img_colormap': current_dataset[8]
+                })
+        else:
+
+            # save dataset in json file
+            table_dataset = {dataset_index: []}
+            table_dataset[dataset_index].append({
+                'name': current_dataset[0],
+                'frame': current_dataset[1],
+                'plot_image': current_dataset[2],
+                'plot_vector': current_dataset[3],
+                'plot_scalar': current_dataset[4],
+                'image_path': current_dataset[5],
+                'img_value_min': current_dataset[6],
+                'img_value_max': current_dataset[7],
+                'img_colormap': current_dataset[8]
+            })
 
         # save data in json file in sources
         with open('table_dataset.json', 'w') as outfile:
@@ -447,18 +466,36 @@ class Main(QMainWindow, Ui_MainWindow):
         self.Img_checkBox.setCheckState(2)
 
         # save dataset in json file
-        table_dataset = {dataset_index: []}
-        table_dataset[dataset_index].append({
-            'name': current_dataset[0],
-            'frame': current_dataset[1],
-            'plot_image': current_dataset[2],
-            'plot_vector': current_dataset[3],
-            'plot_scalar': current_dataset[4],
-            'image_path': current_dataset[5],
-            'img_value_min': current_dataset[6],
-            'img_value_max': current_dataset[7],
-            'img_colormap': current_dataset[8]
-        })
+        t = os.path.isfile('table_dataset.json')
+        if t:
+            with open('table_dataset.json') as f:
+                table_dataset = json.load(f)
+                table_dataset[dataset_index] = []
+                table_dataset[dataset_index].append({
+                    'name': current_dataset[0],
+                    'frame': current_dataset[1],
+                    'plot_image': current_dataset[2],
+                    'plot_vector': current_dataset[3],
+                    'plot_scalar': current_dataset[4],
+                    'image_path': current_dataset[5],
+                    'img_value_min': current_dataset[6],
+                    'img_value_max': current_dataset[7],
+                    'img_colormap': current_dataset[8]
+                })
+        else:
+            # save dataset in json file
+            table_dataset = {dataset_index: []}
+            table_dataset[dataset_index].append({
+                'name': current_dataset[0],
+                'frame': current_dataset[1],
+                'plot_image': current_dataset[2],
+                'plot_vector': current_dataset[3],
+                'plot_scalar': current_dataset[4],
+                'image_path': current_dataset[5],
+                'img_value_min': current_dataset[6],
+                'img_value_max': current_dataset[7],
+                'img_colormap': current_dataset[8]
+            })
 
         # save data in json file in sources
         with open('table_dataset.json', 'w') as outfile:
@@ -538,6 +575,10 @@ if __name__ == '__main__':
     t = os.path.isfile('log.txt')
     if t:
         os.remove('log.txt')
+
+    t = os.path.isfile('table_dataset.json')
+    if t:
+        os.remove('table_dataset.json')
 
     # create project time stamp
     project_create_time = str(datetime.now())
