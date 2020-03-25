@@ -2,6 +2,12 @@
 
 from matplotlib.figure import Figure
 from classes.pytecpiv_class_main import Main
+from pytecpiv_var import dataset_index, time_step, current_dataset
+
+
+
+
+
 
 if __name__ == '__main__':
     import sys

@@ -18,7 +18,7 @@ def convert_dng(frame_num, file, dir_out):
         warnings.filterwarnings("ignore", category=UserWarning)
         bit_16_grayscale_image = img_as_uint(grayscale_image)
         io.imsave(os.path.join(dir_out, 'IMG_' + str(frame_num + 1) + '.tif'), bit_16_grayscale_image)
-        dprint('- image ' + file + ' imported')
+        dprint(file + ' -> ' + os.path.join(dir_out, 'IMG_' + str(frame_num + 1) + '.tif'))
 
 def import_img(path_in, path_out, use_cores):
 
