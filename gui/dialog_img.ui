@@ -147,12 +147,12 @@
         </property>
         <item>
          <property name="text">
-          <string>Greys</string>
+          <string>gray</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>gray</string>
+          <string>Greys</string>
          </property>
         </item>
         <item>

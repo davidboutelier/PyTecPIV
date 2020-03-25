@@ -50,6 +50,7 @@ def create_fig(fig1, dataset):
     from skimage import img_as_float
     import os
     from skimage import io
+    import numpy as np
 
     dataset_name = dataset[0]  # get name of dataset
     frame_number = dataset[1]
@@ -62,8 +63,8 @@ def create_fig(fig1, dataset):
 
         ax1f1 = fig1.add_subplot(111)
         img = img_as_float(io.imread(os.path.join(image_path, 'IMG_' + str(frame_number) + '.tif')))
-        img = (img - min_val) / (max_val - min_val)
-        im = ax1f1.imshow(img, cmap=colormap_name)
+        img = (img - np.min(img)) / (np.max(img) - np.min(img))
+        im = ax1f1.imshow(img, cmap=colormap_name, vmin=min_val, vmax=max_val)
         colorbar(im)
         ax1f1.set_aspect('equal')
 
