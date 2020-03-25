@@ -165,14 +165,15 @@ class Main(QMainWindow, Ui_MainWindow):
         self.actionConfiguration.triggered.connect(self.show_conf_fn)  # menu settings
         self.dialog_conf = dialog_conf(self)
 
-        self.dialog_img = dialog_img(self)
-
         self.new_project_menu.triggered.connect(self.create_new_project)  # menu new project
         self.import_calib_menu.triggered.connect(self.import_calib_img)  # menu data import calib image
+        self.import_exp_menu.triggered.connect(self.import_exp_img)  # menu data import calib image
+
 
         self.Dataset_comboBox.currentIndexChanged.connect(self.dataset_combobox_fn)
 
-        self.Img_pushButton.clicked.connect(self.show_dialog_img)
+        self.Img_pushButton.clicked.connect(self.show_dialog_img)       # trigger dialog image
+        self.dialog_img = dialog_img(self)
 
     def show_dialog_img(self):
         self.dialog_img.show()
@@ -334,6 +335,103 @@ class Main(QMainWindow, Ui_MainWindow):
         self.Dataset_comboBox.insertItem(int(dataset_index), 'calibration images')
         self.Dataset_comboBox.setCurrentIndex(int(dataset_index))
 
+
+    def import_exp_img(self):
+        from PyQt5.QtWidgets import QFileDialog
+        from pytecpiv_conf import pytecpiv_get_pref, pytecpiv_set_cores
+        from pytecpiv_util import dprint
+        from pytecpiv_import import import_img
+
+        import json
+        import os
+
+        global dataset_index, current_dataset, time_step
+
+        #  get the preferences for where sources are located
+        file_exist, sources_path, projects_path = pytecpiv_get_pref()
+
+        #  pick the directory with the raw calib images; open the sources directory
+        source_path_exp_img = QFileDialog.getExistingDirectory(self, 'Open directory', sources_path)
+
+        #  get the fraction core for parallel processing from conf dialog
+        fraction_cores = self.dialog_conf.SliderCores.value()
+        fraction_cores = fraction_cores / 100
+
+        n_cores, use_cores = pytecpiv_set_cores(fraction_cores)
+
+        dprint(str(n_cores) + ' cores available')
+        dprint('using ' + str(use_cores) + ' cores when parallel')
+
+        #  open the project_metadata to get the name and path of the new project
+        with open('project_metadata.json') as f:
+            project_data = json.load(f)
+
+            project = project_data["project"]
+            project = project[0]
+            project_path = project["project_path"]
+
+        #  create a directory  inside the new project directory to store the imported calibration images
+        project_path_exp_img = os.path.join(project_path, 'EXP')
+
+        t = os.path.exists(project_path_exp_img)
+
+        if t:
+            dprint('saving in directory: ' + project_path_exp_img)
+        else:
+            os.mkdir(project_path_exp_img)
+            dprint('saving in directory: ' + project_path_exp_img)
+
+        n_img = import_img(source_path_exp_img, project_path_exp_img, use_cores)
+
+        project_data['project'].append({'source_exp': source_path_exp_img,
+                                        'number_exp_images': n_img})
+
+        # save metadata
+        with open('project_metadata.json', 'w') as outfile:
+            json.dump(project_data, outfile)
+
+        # create new dataset entry and select
+        dataset_index = dataset_index + 1
+
+        current_dataset[0] = 'experiment'
+        current_dataset[1] = 1
+        current_dataset[2] = 1
+        current_dataset[3] = 0
+        current_dataset[4] = 0
+        current_dataset[5] = project_path_exp_img
+        current_dataset[6] = 0
+        current_dataset[7] = 1
+        current_dataset[8] = 'gray'
+
+        #  change the frame number and time in gui
+        self.frame_text.setText(str(1))
+        self.time_text.setText(str((1 - 1) * time_step))
+
+        # change status of chow image checkbox
+        self.Img_checkBox.setCheckState(2)
+
+        # save dataset in json file
+        table_dataset = {dataset_index: []}
+        table_dataset[dataset_index].append({
+            'name': current_dataset[0],
+            'frame': current_dataset[1],
+            'plot_image': current_dataset[2],
+            'plot_vector': current_dataset[3],
+            'plot_scalar': current_dataset[4],
+            'image_path': current_dataset[5],
+            'img_value_min': current_dataset[6],
+            'img_value_max': current_dataset[7],
+            'img_colormap': current_dataset[8]
+        })
+
+        # save data in json file in sources
+        with open('table_dataset.json', 'w') as outfile:
+            json.dump(table_dataset, outfile)
+
+        # change the selected combobox
+        self.Dataset_comboBox.insertItem(int(dataset_index), 'experiment images')
+        self.Dataset_comboBox.setCurrentIndex(int(dataset_index))
+
     def dataset_combobox_fn(self):
         """
 
@@ -389,9 +487,6 @@ class Main(QMainWindow, Ui_MainWindow):
             create_fig(fig1, current_dataset)
 
         self.addmpl(fig1)
-
-
-
 
 
 if __name__ == '__main__':
